@@ -27,6 +27,3 @@ This is a scaffolded Node.js + TypeScript + Express project for the Backend Engi
 - `POST /score` - run scoring (placeholder)
 - `GET /results` - get scored results (placeholder)
 
-## Notes
-- This ZIP contains the scaffold. The actual scoring logic, AI integration, and full controllers are intentionally left as placeholders per your instruction "file me code apn baad me dalenge".
-- If you want, I can now proceed to populate each file with full working implementations.
