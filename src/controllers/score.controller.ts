@@ -2,7 +2,7 @@ import express from 'express';
 import { getLeadsStore } from './leads.controller';
 import { getCurrentOffer } from './offer.controller';
 import { Offer } from '../models/types';
-// import { scoreLeads } from '../services/scoring.service';
+import { scoreLeads } from '../services/scoring.service';
 
 const router = express.Router();
 
