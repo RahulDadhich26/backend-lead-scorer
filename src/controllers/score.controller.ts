@@ -1,36 +1,30 @@
 import express from 'express';
 import { getLeadsStore } from './leads.controller';
-import { ScoredLead, Lead } from '../models/types';
-import ruleEngine from '../rules/ruleEngine';
+import { getCurrentOffer } from './offer.controller';
+import { Offer } from '../models/types';
+// import { scoreLeads } from '../services/scoring.service';
 
 const router = express.Router();
 
-// In-memory results
-let resultsStore: ScoredLead[] = [];
+let resultsStore: any[] = [];
 
 router.post('/', async (req, res) => {
-  // Placeholder synchronous scoring: rule-only + dummy AI points
-  const leads: Lead[] = getLeadsStore();
-  const offer = req.body.offer || null;
-  if (!offer) {
-    return res.status(400).json({ error: 'Offer required in request body for scoring (temporary placeholder).' });
+  try {
+    const offerFromBody: Offer | null = req.body.offer || null;
+    const offer = offerFromBody || getCurrentOffer();
+    if (!offer) {
+      return res.status(400).json({ error: 'No offer set. Provide offer in body or POST /offer first.' });
+    }
+    const leads = getLeadsStore();
+    if (!leads || leads.length === 0) {
+      return res.status(400).json({ error: 'No leads uploaded. POST /leads/upload first.' });
+    }
+    const scored = await scoreLeads(leads, offer);
+    resultsStore = scored;
+    return res.json({ status: 'ok', scored: scored.length, results: scored });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Scoring failed', details: err.message });
   }
-  const scored: ScoredLead[] = leads.map(lead => {
-    const ruleScore = ruleEngine.computeRuleScore(lead, offer);
-    const aiIntent = 'Medium'; // placeholder
-    const aiPoints = 30;
-    const final = Math.min(100, ruleScore + aiPoints);
-    return {
-      ...lead,
-      intent: aiIntent as any,
-      score: final,
-      rule_score: ruleScore,
-      ai_points: aiPoints,
-      reasoning: 'AI reasoning placeholder. | rule_score: ' + ruleScore
-    };
-  });
-  resultsStore = scored;
-  return res.json({ status: 'ok', scored: scored.length, results: scored });
 });
 
 router.get('/results', (req, res) => {

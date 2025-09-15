@@ -3,18 +3,22 @@ import { Lead, Offer } from '../models/types';
 const decisionMakerKeywords = ['ceo','founder','co-founder','cto','cpo','head','vp','director','president','managing director'];
 const influencerKeywords = ['manager','lead','principal','senior','growth','product owner','marketing manager'];
 
+function normalize(s: string) {
+  return (s || '').toLowerCase().trim();
+}
+
 export default {
   computeRuleScore(lead: Lead, offer: Offer): number {
     let score = 0;
-    const role = (lead.role || '').toLowerCase();
-    const industry = (lead.industry || '').toLowerCase();
+    const role = normalize(lead.role || '');
+    const industry = normalize(lead.industry || '');
 
     // Role relevance
     if (decisionMakerKeywords.some(k => role.includes(k))) score += 20;
     else if (influencerKeywords.some(k => role.includes(k))) score += 10;
 
     // Industry match (simple exact match against offer.ideal_use_cases)
-    const ideal = (offer.ideal_use_cases || []).map((s: string) => s.toLowerCase());
+    const ideal = (offer.ideal_use_cases || []).map((s: string) => normalize(s));
     if (ideal.includes(industry)) score += 20;
     else if (ideal.some((i: string) => industry.includes(i) || i.includes(industry))) score += 10;
 
