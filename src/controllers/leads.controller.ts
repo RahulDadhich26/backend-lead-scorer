@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { parse } from 'csv-parse';
+import { parse } from 'csv-parse/sync';
 import { Lead } from '../models/types';
 
 const router = express.Router();
@@ -10,15 +10,12 @@ const upload = multer({ storage: multer.memoryStorage() });
 let leadsStore: Lead[] = [];
 
 router.post('/upload', upload.single('file'), async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'file required (multipart form-data field "file")' });
-  const text = req.file.buffer.toString('utf-8');
-  const records: Lead[] = [];
-  parse(text, { columns: true, trim: true }, (err, parsed) => {
-    if (err) {
-      return res.status(400).json({ error: 'CSV parse error', details: err.message });
-    }
+  try {
+    if (!req.file) return res.status(400).json({ error: 'file required (multipart form-data field "file")' });
+    const text = req.file.buffer.toString('utf-8');
+    const parsed = parse(text, { columns: true, skip_empty_lines: true, trim: true });
+    const records: Lead[] = [];
     for (const row of parsed) {
-      // minimal normalization
       records.push({
         name: row.name || '',
         role: row.role || '',
@@ -30,7 +27,9 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     }
     leadsStore = leadsStore.concat(records);
     return res.json({ status: 'ok', uploaded: records.length });
-  });
+  } catch (err: any) {
+    return res.status(400).json({ error: 'CSV parse error', details: err.message });
+  }
 });
 
 router.get('/all', (req, res) => {
@@ -40,6 +39,10 @@ router.get('/all', (req, res) => {
 // Export simple accessor for other modules
 export function getLeadsStore() {
   return leadsStore;
+}
+
+export function resetLeadsStore() {
+  leadsStore = [];
 }
 
 export default router;
