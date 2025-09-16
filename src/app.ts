@@ -10,6 +10,6 @@ app.use('/offer', offerRouter);
 app.use('/leads', leadsRouter);
 app.use('/score', scoreRouter);
 
-app.get('/', (req, res) => res.json({ status: 'ok', message: 'Backend Lead Scorer scaffold' }));
+app.get('/', (req, res) => res.json({ status: 'ok', message: 'Backend is Running at port 8080' }));
 
 export default app;
