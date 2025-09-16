@@ -62,7 +62,7 @@ Server will start at: [http://localhost:8080](http://localhost:8080)
 ### Health Check
 
 ```bash
-curl http://localhost:8080/
+curl https://backend-lead-scorer.onrender.com/
 ```
 
 **Sample response:**
@@ -73,7 +73,7 @@ curl http://localhost:8080/
 ### Set Offer
 
 ```bash
-curl -X POST http://localhost:8080/offer \
+curl -X POST https://backend-lead-scorer.onrender.com/offer \
   -H "Content-Type: application/json" \
   -d '{
     "name": "AI Outreach Automation",
@@ -96,7 +96,7 @@ Lisa Wong,VP Marketing,CloudX,B2B SaaS mid-market,New York,"10+ years in SaaS ma
 Upload leads:
 
 ```bash
-curl -X POST http://localhost:8080/leads/upload \
+curl -X POST https://backend-lead-scorer.onrender.com/leads/upload \
   -F "file=@leads.csv"
 ```
 
@@ -108,7 +108,7 @@ curl -X POST http://localhost:8080/leads/upload \
 ### Run Scoring
 
 ```bash
-curl -X POST http://localhost:8080/score
+curl -X POST https://backend-lead-scorer.onrender.com/score
 ```
 
 ### Get Results
