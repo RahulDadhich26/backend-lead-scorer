@@ -2,6 +2,12 @@ import { Lead, Offer, ScoredLead } from '../models/types';
 import ruleEngine from '../rules/ruleEngine';
 import { classifyLeadWithAI } from './ai.service';
 
+let latestResults: ScoredLead[] = [];
+
+export function getResults(): ScoredLead[] {
+  return latestResults;
+}
+
 export async function scoreLeads(leads: Lead[], offer: Offer): Promise<ScoredLead[]> {
   const results: ScoredLead[] = [];
   for (const lead of leads) {
@@ -20,5 +26,6 @@ export async function scoreLeads(leads: Lead[], offer: Offer): Promise<ScoredLea
     };
     results.push(scored);
   }
+  latestResults = results;
   return results;
 }
