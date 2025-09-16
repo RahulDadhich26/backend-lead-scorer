@@ -1,4 +1,5 @@
 import express from 'express';
+import { Parser } from 'json2csv';
 import { getLeadsStore } from './leads.controller';
 import { getCurrentOffer } from './offer.controller';
 import { Offer } from '../models/types';
@@ -29,6 +30,22 @@ router.post('/', async (req, res) => {
 
 router.get('/results', (req, res) => {
   return res.json(resultsStore);
+});
+
+router.get('/results/export', (req, res) => {
+  if (!resultsStore || resultsStore.length === 0) {
+    return res.status(400).json({ error: 'No results to export' });
+  }
+
+  try {
+    const parser = new Parser();
+    const csv = parser.parse(resultsStore);
+    res.header('Content-Type', 'text/csv');
+    res.attachment('results.csv');
+    return res.send(csv);
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 export default router;
