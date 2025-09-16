@@ -68,4 +68,78 @@ curl -X POST http://localhost:8080/offer \
     "ideal_use_cases": ["B2B SaaS mid-market"]
   }'
 
-  
+
+
+Upload Leads
+
+Sample leads.csv
+
+
+name,role,company,industry,location,linkedin_bio
+Ava Patel,Head of Growth,FlowMetrics,B2B SaaS mid-market,San Francisco,"Driving SaaS growth..."
+Rohit Sharma,Software Engineer,TechSpark,EdTech,Bangalore,"Developer and problem solver"
+Lisa Wong,VP Marketing,CloudX,B2B SaaS mid-market,New York,"10+ years in SaaS marketing"
+name,role,company,industry,location,linkedin_bio
+Arjun Mehta,Product Manager,InnoTech,B2C FinTech,Mumbai,"Building user-first products with scalable impact"
+Sophia Lee,Data Scientist,HealthAI,Healthcare AI,Singapore,"Turning health data into actionable insights"
+Daniel Smith,CTO,GreenGrid,Renewable Energy,London,"Leading innovation in sustainable tech"
+Priya Nair,Marketing Lead,EdFuture,EdTech,Delhi,"Driving growth with data-driven campaigns"
+Michael Johnson,Full Stack Engineer,ShopSphere,E-commerce,New York,"Passionate about scalable architecture and performance"
+
+Upload command:
+
+curl -X POST http://localhost:8080/leads/upload \
+  -F "file=@leads.csv"
+
+Response
+
+{ "status": "ok", "uploaded": 3 }
+
+Run Scoring
+
+curl -X POST http://localhost:8080/score
+
+
+Get Results
+
+Example Output
+
+
+[
+  {
+    "name": "Ava Patel",
+    "role": "Head of Growth",
+    "company": "FlowMetrics",
+    "industry": "B2B SaaS mid-market",
+    "intent": "High",
+    "score": 85,
+    "reasoning": "Her role aligns with SaaS ICP and she is a decision maker."
+  },
+  {
+    "name": "Rohit Sharma",
+    "role": "Software Engineer",
+    "company": "TechSpark",
+    "industry": "EdTech",
+    "intent": "Low",
+    "score": 20,
+    "reasoning": "Not a decision maker, different industry, weak signals."
+  }
+]
+
+
+Notes
+	•	This is a prototype assignment project → storage is in-memory (no DB).
+	•	Works perfectly for demo + hackathon style submissions.
+	•	Can be extended with:
+	•	CSV export endpoint
+	•	Dockerfile for deployment
+	•	Persistent DB (Mongo/Postgres)
+
+
+
+⸻
+
+Author
+
+Built with focus on clarity, speed, and explainability.
+
