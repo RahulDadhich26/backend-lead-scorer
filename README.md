@@ -14,7 +14,7 @@ Built for **clean APIs, fast integration, and explainable scoring**.
   - **AI Layer**: Gemini AI classification & reasoning (max 50 pts).
   - **Final Score**: Combined Rule + AI score.
 - **Results API**: Get structured JSON for all scored leads.
-- **Extensible**: Easy to add CSV export, database integration, and other features.
+- **Extensible**: Dockerfile, database integration, and other features.
 
 ---
 
@@ -89,8 +89,6 @@ Prepare a sample `leads.csv`:
 ```
 name,role,company,industry,location,linkedin_bio
 Ava Patel,Head of Growth,FlowMetrics,B2B SaaS mid-market,San Francisco,"Driving SaaS growth..."
-Rohit Sharma,Software Engineer,TechSpark,EdTech,Bangalore,"Developer and problem solver"
-Lisa Wong,VP Marketing,CloudX,B2B SaaS mid-market,New York,"10+ years in SaaS marketing"
 ```
 
 Upload leads:
