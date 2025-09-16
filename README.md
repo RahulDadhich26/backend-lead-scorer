@@ -131,9 +131,7 @@ Notes
 	•	This is a prototype assignment project → storage is in-memory (no DB).
 	•	Works perfectly for demo + hackathon style submissions.
 	•	Can be extended with:
-	•	CSV export endpoint
-	•	Dockerfile for deployment
-	•	Persistent DB (Mongo/Postgres)
+	•	CSV export endpoint.
 
 
 
