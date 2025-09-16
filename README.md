@@ -100,7 +100,7 @@ curl -X POST https://backend-lead-scorer.onrender.com/leads/upload \
 
 **Sample response:**
 ```json
-{ "status": "ok", "uploaded": 3 }
+{ "status": "ok", "uploaded": 2 }
 ```
 
 ### Run Scoring
