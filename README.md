@@ -1,65 +1,78 @@
-# Lead Qualification & Scoring Backend  
+# Lead Qualification & Scoring Backend
 
-This project is a lightweight backend service designed to **qualify and score leads** using a combination of **rule-based logic** and **AI reasoning (Gemini AI)**.  
-
-It was built with a focus on **clean APIs, quick integration, and explainable scoring**.  
-
----
-
-## Features  
-- Offer Management → Store product/offer context  
-- Leads Upload → Upload CSV of prospects  
-- Scoring Pipeline  
-  - Rule Layer (Role, Industry, Data completeness → max 50 pts)  
-  - AI Layer (Gemini AI classification & reasoning → max 50 pts)  
-  - Final Score = Rule + AI  
-- Results API → Get structured JSON of all scored leads  
-- Extensible → Easy to add CSV export, Docker deployment, DB integration  
+A lightweight backend service to **qualify and score leads** using rule-based logic and **AI reasoning (Gemini AI)**.  
+Built for **clean APIs, fast integration, and explainable scoring**.
 
 ---
 
-## Tech Stack  
-- Node.js + TypeScript + Express  
-- Gemini AI API for reasoning  
-- Multer + csv-parse for file uploads  
-- In-memory storage for leads/offers (simple + stateless)  
+## Features
+
+- **Offer Management**: Store product/offer context.
+- **Leads Upload**: Upload CSV files of prospects.
+- **Scoring Pipeline**:
+  - **Rule Layer**: Scores based on role, industry, and data completeness (max 50 pts).
+  - **AI Layer**: Gemini AI classification & reasoning (max 50 pts).
+  - **Final Score**: Combined Rule + AI score.
+- **Results API**: Get structured JSON for all scored leads.
+- **Extensible**: Easy to add CSV export, database integration, and other features.
 
 ---
 
-## Quick Start  
+## Tech Stack
 
-### 1. Clone & Install  
+- Node.js + TypeScript + Express
+- Gemini AI API for reasoning
+- Multer & csv-parse for file uploads
+- In-memory storage for leads/offers (stateless and simple)
+
+---
+
+## Getting Started
+
+### 1. Clone & Install
+
 ```bash
-git clone https://github.com/yourusername/backend-lead-scorer.git
+git clone https://github.com/RahulDadhich26/backend-lead-scorer.git
 cd backend-lead-scorer
 npm install
+```
 
+### 2. Setup Environment
 
-2. Setup Environment
-Create a .env file in the project root:
+Create a `.env` file in the project root:
 
+```
 PORT=8080
 GEMINI_API_KEY=your_real_gemini_api_key_here
 AI_TIMEOUT_MS=15000
+```
 
+### 3. Run Server
 
-3. Run Server
+```bash
 npm run dev
+```
 
-Server will run on → http://localhost:8080
+Server will start at: [http://localhost:8080](http://localhost:8080)
 
-API Usage
+---
 
-Health Check
+## API Usage
 
+### Health Check
+
+```bash
 curl http://localhost:8080/
+```
 
-Response
-in json 
+**Sample response:**
+```json
 { "status": "ok", "message": "Backend Lead Scorer" }
+```
 
-Set Offer
+### Set Offer
 
+```bash
 curl -X POST http://localhost:8080/offer \
   -H "Content-Type: application/json" \
   -d '{
@@ -67,44 +80,42 @@ curl -X POST http://localhost:8080/offer \
     "value_props": ["24/7 outreach", "6x more meetings"],
     "ideal_use_cases": ["B2B SaaS mid-market"]
   }'
+```
 
+### Upload Leads
 
+Prepare a sample `leads.csv`:
 
-Upload Leads
-
-Sample leads.csv
-
-
+```
 name,role,company,industry,location,linkedin_bio
 Ava Patel,Head of Growth,FlowMetrics,B2B SaaS mid-market,San Francisco,"Driving SaaS growth..."
 Rohit Sharma,Software Engineer,TechSpark,EdTech,Bangalore,"Developer and problem solver"
 Lisa Wong,VP Marketing,CloudX,B2B SaaS mid-market,New York,"10+ years in SaaS marketing"
-name,role,company,industry,location,linkedin_bio
-Arjun Mehta,Product Manager,InnoTech,B2C FinTech,Mumbai,"Building user-first products with scalable impact"
-Sophia Lee,Data Scientist,HealthAI,Healthcare AI,Singapore,"Turning health data into actionable insights"
-Daniel Smith,CTO,GreenGrid,Renewable Energy,London,"Leading innovation in sustainable tech"
-Priya Nair,Marketing Lead,EdFuture,EdTech,Delhi,"Driving growth with data-driven campaigns"
-Michael Johnson,Full Stack Engineer,ShopSphere,E-commerce,New York,"Passionate about scalable architecture and performance"
+```
 
-Upload command:
+Upload leads:
 
+```bash
 curl -X POST http://localhost:8080/leads/upload \
   -F "file=@leads.csv"
+```
 
-Response
-
+**Sample response:**
+```json
 { "status": "ok", "uploaded": 3 }
+```
 
-Run Scoring
+### Run Scoring
 
+```bash
 curl -X POST http://localhost:8080/score
+```
 
+### Get Results
 
-Get Results
+**Sample output:**
 
-Example Output
-
-
+```json
 [
   {
     "name": "Ava Patel",
@@ -125,19 +136,18 @@ Example Output
     "reasoning": "Not a decision maker, different industry, weak signals."
   }
 ]
+```
 
+---
 
-Notes
-	•	This is a prototype assignment project → storage is in-memory (no DB).
-	•	Works perfectly for demo + hackathon style submissions.
-	•	Can be extended with:
-	•	CSV export endpoint.
+## Notes
 
+- This is a prototype assignment project; storage is in-memory (no database).
+- Works perfectly for demos and hackathon-style submissions.
+- Easily extended for features like CSV export, database integration, etc.
 
+---
 
-⸻
+## Author
 
-Author
-
-Built with focus on clarity, speed, and explainability.
-
+Built with a focus on clarity, speed, and explainability.
